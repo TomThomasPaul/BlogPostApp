@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: queryservice-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queryservice
+  template:
+    metadata:
+      labels:
+        app: queryservice
+    spec:
+      containers:
+        - name: queryservice
+          image: tomthomaspaul/queryservice
+          imagePullPolicy: Never         
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: queryservice-srv
+spec:
+  selector: 
+    app: queryservice
+  type: ClusterIP
+  ports:
+    - name: queryservice
+      protocol: TCP
+      port: 4002
+      targetPort: 4002
